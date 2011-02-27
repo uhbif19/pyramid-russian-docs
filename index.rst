@@ -1,15 +1,15 @@
 .. _index:
 
 =================================================
-The Pyramid Web Application Development Framework
+Pyramid - Web-фреймворк
 =================================================
 
-:app:`Pyramid` is a small, fast, down-to-earth Python web application
-development framework.  It is developed as part of the `Pylons Project
-<http://docs.pylonsproject.org/>`_.  It is licensed under a `BSD-like license
+:app:`Pyramid` это маленький, быстрый, практичный Python фреймворк,
+для разработки веб приложений.  Он разрабатывается, как часть `Проекта Pylons
+<http://docs.pylonsproject.org/>`_.  И лицензируется, по `BSD-подобной лицензии
 <http://repoze.org/license.html>`_.
 
-Front Matter
+Вступление
 ============
 
 .. toctree::
@@ -18,7 +18,7 @@ Front Matter
    copyright.rst
    conventions.rst
 
-"What's New" Documents
+Что нового ?
 ======================
 
 .. toctree::
@@ -26,10 +26,10 @@ Front Matter
 
    whatsnew-1.0
 
-Narrative documentation
+Общая документация
 =======================
 
-Narrative documentation in chapter form explaining how to use
+Документация описывает использование фреймворка
 :app:`Pyramid`.
 
 .. toctree::
@@ -66,12 +66,12 @@ Narrative documentation in chapter form explaining how to use
    narr/threadlocals
    narr/zca
 
-Tutorials
+Руководства
 =========
 
-Detailed tutorials explaining how to use :app:`Pyramid` to build
-various types of applications and how to deploy :app:`Pyramid`
-applications to various platforms.
+Детализированные руководства рассказывают как создавать 
+различные типы приложений, с помощью  :app:`Pyramid`,
+и как развертывать их на разных платформах.
 
 .. toctree::
    :maxdepth: 2
@@ -82,17 +82,17 @@ applications to various platforms.
    tutorials/gae/index.rst
    tutorials/modwsgi/index.rst
 
-Reference Material
+Справочный материал
 ==================
 
-Reference material includes documentation for every :app:`Pyramid` API.
+Справка включает в себя сведения о всех API :app:`Pyramid`.
 
 .. toctree::
    :maxdepth: 2
 
    api
 
-Detailed Change History
+Детализированная история изменений
 =======================
 
 .. toctree::
@@ -100,7 +100,7 @@ Detailed Change History
 
    changes
 
-Design Documentation
+Архитектура Pyramid
 ====================
 
 .. toctree::
@@ -108,94 +108,94 @@ Design Documentation
 
    designdefense
 
-Sample Applications
+Примеры приложений
 ===================
 
-`cluegun <https://github.com/Pylons/cluegun>`_ is a simple pastebin
-application based on Rocky Burt's `ClueBin
-<http://pypi.python.org/pypi/ClueBin/0.2.3>`_.  It demonstrates form
-processing, security, and the use of :term:`ZODB` within a :app:`Pyramid`
-application.  Check this application out via:
+`cluegun <https://github.com/Pylons/cluegun>`_ это pastebin-like
+сервис основанный на Rocky Burt's `ClueBin
+<http://pypi.python.org/pypi/ClueBin/0.2.3>`_.  Он демонстрирует
+обработку форм, безопасность, и использование:term:`ZODB` без :app:`Pyramid`
+Посмотрите на код этого приложения, с помощью :
 
 .. code-block:: text
 
   git clone git://github.com/Pylons/cluegun.git
 
-`virginia <https://github.com/Pylons/virginia>`_ is a very simple dynamic
-file rendering application.  It is willing to render structured text
-documents, HTML documents, and images from a filesystem directory.  An
-earlier version of this application runs the `repoze.org
-<http://repoze.org>`_ website.  Check this application out via:
+`virginia <https://github.com/Pylons/virginia>`_ это очень простой
+файл рендер.  Он может покзывать документы Stuctured Text, 
+HTML файлы, и изображения из папки.
+Ранние версии приложения работали на  `repoze.org
+<http://repoze.org>`_.  Посмотрите на код этого приложения, с помощью :
 
 .. code-block:: text
 
   git clone git://github.com/Pylons/virginia.git
 
-`shootout <https://github.com/Pylons/shootout>`_ is an example "idea
-competition" application by Carlos de la Guardia.  It demonstrates a hybrid
-of :term:`URL dispatch` and :term:`traversal` and integration with
-`SQLAlchemy <http://www.sqlalchemy.org/>`_, :term:`repoze.who`, and
-`Deliverance <http://www.deliveranceproject.org/>`_.  Check this application
-out of version control via:
+`shootout <https://github.com/Pylons/shootout>`_ это пример 
+"идейного" приолжения от Carlos de la Guardia.  Оно демонстрирует
+гибрид :term:`URL dispatch` и :term:`traversal`, интегрированного с
+`SQLAlchemy <http://www.sqlalchemy.org/>`_, :term:`repoze.who`, и
+`Deliverance <http://www.deliveranceproject.org/>`_.  
+Посмотрите на код этого приложения, с помощью :
 
 .. code-block:: text
 
   git clone git://github.com/Pylons/shootout.git
 
-Older Sample Applications (repoze.bfg)
+Устаревшие примеры приложений (repoze.bfg)
 ======================================
 
 .. note::
 
-   These applications are for an older version of :app:`Pyramid`, which was
-   named :mod:`repoze.bfg`.  They won't work unmodified under Pyramid, but
-   might provide useful clues.
+   Эти приложения написанны на старой версии :app:`Pyramid`, которя
+   называлась :mod:`repoze.bfg`.  Они не могут работать без дополнительной модификации под :app:`Pyramid`,
+   могут дать полезные представления.
 
-`bfgsite <http://svn.repoze.org/bfgsite/trunk>`_ is the software which
-runs the `bfg.repoze.org <http://bfg.repoze.org>`_ website.  It
-demonstrates integration with Trac, and includes several
-mini-applications such as a pastebin and tutorial engine.  Check a
-buildout for this application out of Subversion via:
+`bfgsite <http://svn.repoze.org/bfgsite/trunk>`_ это приложение,
+на котором работает`bfg.repoze.org <http://bfg.repoze.org>`_ Вебсайт.
+Оно демонстрирует интеграцию с Trac, и включает в себя нескольно
+мини-приложений, таких как pastebin и движок мануалов.
+Посмотреть код проекта на SVN, можно так :
 
 .. code-block:: text
 
   svn co http://svn.repoze.org/buildouts/bfgsite/ bfgsite_buildout
 
-`KARL <http://karlproject.org>`_ is a moderately-sized application
-(roughly 70K lines of Python code) built on top of :mod:`repoze.bfg`
-and other Repoze software.  It is an open source web system for
-collaboration, organizational intranets, and knowledge management, It
-provides facilities for wikis, calendars, manuals, searching, tagging,
-commenting, and file uploads.  See the `KARL site
-<http://karlproject.org>`_ for download and installation details.
+`KARL <http://karlproject.org>`_ это довольно большое
+(примерно 70k строк кода) основанное на  :mod:`repoze.bfg`
+и других приложениях Repoze.  Это OpenSource web-система, для
+совместной работы, корпоративных сетей, и баз знаний.
+Оно предостовляет функциональность вики, календарей, руководств,
+поиска, тэггирования, комментирования, и загрузки файлов.
+Посмотрите `Сайт KARL<http://karlproject.org>`_, для скачивания и деталей установки.
 
-Support and Development
+Поддержка и Разроботка
 =======================
 
-The `Pylons Project web site <http://pylonsproject.org/>`_ is the main online
-source of :app:`Pyramid` support and development information.
+`Сайт Проекта Pylons <http://pylonsproject.org/>`_ это главный онлайн источник 
+информации о :app:`Pyramid`.
 
-To report bugs, use the `issue tracker
+Для сообщения о ошибках, используйте issue tracker
 <http://github.com/Pylons/pyramid/issues>`_.
 
-If you've got questions that aren't answered by this documentation,
-contact the `Pylons-devel maillist
-<http://groups.google.com/group/pylons-devel>`_ or join the `#pylons
-IRC channel <irc://irc.freenode.net/#pylons>`_.
+Если у вас появились вопросы, не освещенные в данной документации
+свяжитесь в рассылкой `Pylons-devel
+<http://groups.google.com/group/pylons-devel>`_ или присоеденитесь к `#pylons
+IRC каналу <irc://irc.freenode.net/#pylons>`_.
 
-Browse and check out tagged and trunk versions of :app:`Pyramid` via
-the `Pyramid GitHub repository <http://github.com/Pylons/pyramid/>`_.
-To check out the trunk via ``git``, use this command:
+Посмотрите на тэгированные и нестабильные версии :app:`Pyramid` с помощью
+`репозитория Pyramid на GitHub <http://github.com/Pylons/pyramid/>`_.
+Что бы посмотреть нестабильный код на ``git``, используйте эту комманду:
 
 .. code-block:: text
 
   git clone git@github.com:Pylons/pyramid.git
 
-To find out how to become a contributor to :app:`Pyramid`, please see the
-`contributor's section of the documentation
+Что-бы узнать как стать контрибутором :app:`Pyramid`, посмотрите
+`эту секцию документации
 <http://docs.pylonsproject.org/index.html#contributing>`_.
 
-Index and Glossary
+Индекс и Глоссарий
 ==================
 
 * :ref:`glossary`
