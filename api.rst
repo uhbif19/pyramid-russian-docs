@@ -1,9 +1,9 @@
-API Documentation
+API Документация
 =================
 
-Comprehensive reference material for every public API exposed by
-:app:`Pyramid` is available within this chapter.  The API
-documentation is organized alphabetically by module name.
+Всесторонний справочный материал для каждого API, использованного
+:app:`Pyramid` находиться в этой главе. 
+Документация API организованна по названию модулей
 
 .. toctree::
    :maxdepth: 1
