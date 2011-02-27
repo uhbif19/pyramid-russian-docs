@@ -1,12 +1,12 @@
 .. _latexindex:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-The :app:`Pyramid` Web Application Framework
+:app:`Pyramid` web-фреймворк
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 .. frontmatter::
 
-Front Matter
+Вступление 
 @@@@@@@@@@@@
 
 .. toctree::
@@ -20,7 +20,7 @@ Front Matter
 
 .. _narrative_documentation:
 
-Narrative Documentation
+Общая документация
 @@@@@@@@@@@@@@@@@@@@@@@
 
 .. toctree::
@@ -58,7 +58,7 @@ Narrative Documentation
 
 .. _tutorials:
 
-Tutorials
+Руководства
 @@@@@@@@@
 
 .. toctree::
@@ -72,7 +72,7 @@ Tutorials
 
 .. _api_reference:
 
-API Reference
+Документация API
 @@@@@@@@@@@@@
 
 .. toctree::
@@ -106,7 +106,7 @@ API Reference
 
 .. backmatter::
 
-Glossary and Index
+Глоссарий и Индекс
 @@@@@@@@@@@@@@@@@@
 
 .. toctree::
