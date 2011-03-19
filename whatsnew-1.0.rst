@@ -1,114 +1,83 @@
-What's New In Pyramid 1.0
+
+Что нового в Pyramid 1.0
+
+Что нового в Pyramid 1.0
 =========================
 
-This article explains the new features in Pyramid version 1.0 as compared to
-its predecessor, :mod:`repoze.bfg` 1.3.  It also documents backwards
-incompatibilities between the two versions and deprecations added to Pyramid
-1.0, as well as software dependency changes and notable documentation
-additions.
 
-Major Feature Additions
+Эта статья описывает различия между Pyramid версии 1.0, по сравнению с его предшественником :mod:`repoze.bfg` 1.3. Она также описывает обратные несовместимости, между двумя версиями, изменения зависимостей и документации.
+
+Основные изменения
 -----------------------
 
-The major feature additions in Pyramid 1.0 are:
+Главные изменения в Pyramid 1.0 это :
 
-- New name and branding association with the Pylons Project.
+- Новое имя и брэнд связанный с проектом Pylons.
 
-- BFG conversion script
+- Скрипт перехода с BFG
 
-- Paster template improvements
+- Изменения в шаблонах Paster
 
-- Terminology changes
+- Изменения терминологии
 
-- Better platform compatibility and support
+- Лучшая совместимость  и поддержка
 
-- Direct built-in support for the Mako templating language.
+- Встроенная поддержка языка шаблонов Mako
 
-- Built-in support for sessions.
+- Встроенная поддержка сессий
 
-- Updated URL dispatch features
+- Обновленные возможности  URL диспатчинга
 
-- Better imperative extensibility
+- Лучшая поддержка императивной конфигурации
 
-- ZCML externalized
+ - ZCML
 
-- Better support for global template variables during rendering
+ - Лучшая поддержка глобальных переменных во время рендеринга
 
 - View mappers
 
-- Testing system improvements
+- Обновленная система тестирования
 
-- Authentication support improvements
+- Поддержка аутентификации
 
-- Documentation improvements
+- Возможности документирования
 
-New Name and Branding
+Новое имя и бренд
 ~~~~~~~~~~~~~~~~~~~~~
 
-The name of ``repoze.bfg`` has been changed to Pyramid.  The project is also
-now a subproject of a new entity, "The Pylons Project".  The Pylons Project
-is the project name for a collection of web-framework-related technologies.
-Pyramid was the first package in the Pylons Project. Other packages to the
-collection have been added over time, such as support packages useful for
-Pylons 1 users as well as ex-Zope users.  Pyramid is the successor to both
-:mod:`repoze.bfg` and :term:`Pylons` version 1.
+Имя из ``repoze.bfg``поменялось на Pyramid. 
+Так-же проект теперь является подпроектом, новой сущности - Проекта Pylons. Проект Pylons, это коллекция связанных с веб-программированием технологий. Pyramid стал первым пакетом Проекта Pylons. Другие пакеты, полезные как для пользователей Pylons 1.0, так и для приверженцев Zope, добавляются с течением времени.
+Pyramid это наследник, как  :mod:`repoze.bfg`, так и :term:`Pylons` версии 1.0 .
 
-The Pyramid codebase is derived almost entirely from :mod:`repoze.bfg`
-with some changes made for the sake of Pylons 1 compatibility.
 
-Pyramid is technically backwards incompatible with :mod:`repoze.bfg`, as it
-has a new package name, so older imports from the ``repoze.bfg`` module will
-fail if you do nothing to your existing :mod:`repoze.bfg` application.
-However, you won't have to do much to use your existing BFG applications on
-Pyramid. There's automation which will change most of your import statements
-and ZCML declarations. See
-http://docs.pylonshq.com/pyramid/dev/tutorials/bfg/index.html for upgrade
-instructions.
+Большая часть кодовой базы Pyramid взята из :mod:`repoze.bfg`, с некоторыми дополнительными изменениями, для совместимости в Pylons 1.
 
-Pylons 1 users will need to do more work to use Pyramid, as Pyramid shares no
-"DNA" with Pylons.  It is hoped that over time documentation and upgrade code
-will be developed to help Pylons 1 users transition to Pyramid more easily.
+Технически Pyramid несовместим с :mod:`repoze.bfg`, он имеет новое имя, так что старые импорты модулей ``repoze.bfg`` выдадут ошибку. 
+Тем не менее, вам не нужно сделать не так много, чтобы запустить ваши BFG приложения под Pyramid. Есть автоматизированный скрипт, который поменяет большинство импортов и ZCML деклараций. Посмотрите http://docs.pylonshq.com/pyramid/dev/tutorials/bfg/ для инструкций по обновлению.
 
-:mod:`repoze.bfg` version 1.3 will be its last major release. Minor updates
-will be made for critical bug fixes.  Pylons version 1 will continue to see
-maintenance releases, as well.
+Пользователям Pylons 1, нужно будет больше поработать, для использования Pyramid, так как нету автоматических средств преобразования для Pylons. Надеемся, что с течением времени появится больше документации и кода, для облегчения перехода с Pylons 1.
 
-The Repoze project will continue to exist. Repoze will be able to regain its
-original focus: bringing Zope technologies to WSGI. The popularity of
-:mod:`repoze.bfg` as its own web framework hindered this goal.
+:mod:`repoze.bfg` версии 1.3 это последний крупный релиз. Апдейты будут выходить только для баг-фиксов. Pylons 1 продолжит развитие.
 
-We hope that people are attracted at first by the spirit of cooperation
-demonstrated by the Pylons Project and the merging of development
-communities. It takes humility to sacrifice a little sovereignty and work
-together. The opposite, forking or splintering of projects, is much more
-common in the open source world. We feel there is a limited amount of oxygen
-in the space of "top-tier" Python web frameworks and we don’t do the Python
-community a service by over-crowding.  By merging the :mod:`repoze.bfg` and
-the philosophically-similar Pylons communities, both gain an expanded
-audience and a stronger chance of future success.
+Проект Repoze продолжит существовать. Repoze сможет заняться своей основной деятельностью: переносом Zope технологий в  WSGI. Популярность фреймворка :mod:`repoze.bfg`, самого по себе препятствует этому.
 
-BFG Conversion Script
+Мы надеемся, что людей привлекло чувство сотрудничества, присущее Проекту Pylons и объединение комьюнити. Теряя немного суверенитета, мы получаем возможность работать вместе. В противоположность к этому, создание форков и разделение проектов является более распространенной практикой в мире опенсурс. Мы чувствуем что в пространстве веб-фреймворков первого уровня, не так много места. Объедения несколько проектов, с похожей философией мы получаем больше шансов на успех. 
+
+Скрипт преобразования из BFG
 ~~~~~~~~~~~~~~~~~~~~~
 
-The ``bfg2pyramid`` conversion script performs a mostly automated conversion
-of an existing :mod:`repoze.bfg` application to Pyramid.  The process is
-described in :ref:`converting_a_bfg_app`.
+Скрипт ``bfg2pyramid``, позволяет в большинстве случаев автоматически преобразовать существующее :mod:`repoze.bfg` в Pyramid. Этот процесс описан в :ref:`converting_a_bfg_app`.
 
-Paster Template Improvements
+Изменения шаблонов  Paster 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- The paster templates now have much nicer CSS and graphics.
+- Новая графика и CSS
 
-- The ``development.ini`` generated by all paster templates is now configured
-  to use the :term:`WebError` interactive exception debugger by default.
+ - Файл ``development.ini`` сконфигурирован, для использования  :term:`WebError` по умолчанию.
 
-- All paster templates have been normalized: each now uses the name ``main``
-  to represent the function that returns a WSGI application, and each now has
-  roughly the same shape of development.ini style.
+- Все шаблоны Paster теперь сведены к норме. Каждый теперь использует название ``main``, для функции которая возвращает WSGI приложение. Стандартизирован стиль файла ``development.ini`` .
 
-- All preexisting paster templates now use "imperative" configuration
-  (``starter``, ``routesalchemy``, ``alchemy``, ``zodb``) instead of ZCML
-  configuration.
+- Все предшествующие шаблоны Paster теперь используют императивную конфигурацию (``starter``, ``routesalchemy``, ``alchemy``, ``zodb``), вместо ZCML.
 
 - The ``pyramid_zodb``, ``pyramid_routesalchemy`` and ``pyramid_alchemy``
   paster templates now use a default "commit veto" hook when configuring the
@@ -117,328 +86,222 @@ Paster Template Improvements
   the 400 or 500 ranges.  See also
   http://docs.repoze.org/tm2/#using-a-commit-veto.
 
-Terminology Changes
+Смена терминологии
 ~~~~~~~~~~~~~~~~~~~
 
-- The Pyramid concept previously known as "model" is now known as "resource".
-  As a result, the following API renames have been made.  Backwards
-  compatibility shims for the old names have been left in place in all cases::
+- Концепт ранее известный как "модель", теперь называется "ресурс". В результате, соответствующие API переименовываются. Для совместимости старые понятия были оставлены::
 
-      pyramid.url.model_url -> 
-                        pyramid.url.resource_url
+pyramid.url.model_url -> 
+pyramid.url.resource_url
 
-      pyramid.traversal.find_model -> 
-                        pyramid.url.find_resource
+pyramid.traversal.find_model -> 
+pyramid.url.find_resource
 
-      pyramid.traversal.model_path ->
-                        pyramid.traversal.resource_path
+pyramid.traversal.model_path ->
+pyramid.traversal.resource_path
 
-      pyramid.traversal.model_path_tuple ->
-                        pyramid.traversal.resource_path_tuple
+pyramid.traversal.model_path_tuple ->
+pyramid.traversal.resource_path_tuple
 
-      pyramid.traversal.ModelGraphTraverser -> 
-                        pyramid.traversal.ResourceTreeTraverser
+pyramid.traversal.ModelGraphTraverser -> 
+pyramid.traversal.ResourceTreeTraverser
 
-      pyramid.config.Configurator.testing_models ->
-                        pyramid.config.Configurator.testing_resources
+pyramid.config.Configurator.testing_models ->
+pyramid.config.Configurator.testing_resources
 
-      pyramid.testing.registerModels ->
-                        pyramid.testing.registerResources
+pyramid.testing.registerModels ->
+pyramid.testing.registerResources
 
-      pyramid.testing.DummyModel ->
-                        pyramid.testing.DummyResource
+pyramid.testing.DummyModel ->
+pyramid.testing.DummyResource
 
-- All documentation which previously referred to "model" now refers to
-  "resource".
+- Вся документация теперь содержит новую терминологию.
 
-- The ``starter`` paster template now has a ``resources.py`` module instead
-  of a ``models.py`` module.
+- Шаблон ``starter`` теперь имеет модуль ``resources.py``, вместо ``models.py``.
 
-- Positional argument names of various APIs have been changed from
-  ``model`` to ``resource``.
+- В названиях аргументов различных API, также ``model`` сменено на ``resource``.
 
-- The Pyramid concept previously known as "resource" is now known as "asset".
-  As a result, the following API changes were made.  Backwards compatibility
-  shims have been left in place as necessary::
+- Концепт называвшийся "resource", теперь называется "asset". Обратная совместимость оставлена, в рамках необходимости::
 
-      pyramid.config.Configurator.absolute_resource_spec ->
-                        pyramid.config.Configurator.absolute_asset_spec
-
-      pyramid.config.Configurator.override_resource ->
-                        pyramid.config.Configurator.override_asset
+pyramid.config.Configurator.absolute_resource_spec ->
+pyramid.config.Configurator.absolute_asset_spec
 
 
-- The (non-API) module previously known as ``pyramid.resource`` is now
-  known as ``pyramid.asset``.
+pyramid.config.Configurator.override_resource ->
+pyramid.config.Configurator.override_asset
+
+- Модуль (не-API) ``pyramid.resource`` заменен ``pyramid.asset``.
 
 - All docs that previously referred to "resource specification" now refer
   to "asset specification".
 
-- The setting previously known as ``BFG_RELOAD_RESOURCES`` (envvar) or
-  ``reload_resources`` (config file) is now known, respectively, as
-  ``PYRAMID_RELOAD_ASSETS`` and ``reload_assets``.
+- Установка ``BFG_RELOAD_RESOURCES`` (envvar) или ``reload_resources`` (конфигурационный файл), теперь называются  ``PYRAMID_RELOAD_ASSETS`` и ``reload_assets`` соответственно.
 
-Better Platform Compatibility and Support
+Улучшенная совместимость и документация
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We've made Pyramid's test suite pass on both Jython and PyPy.  However,
-Chameleon doesn't work on either, so you'll need to use Mako or Jinja2
-templates on these platforms.
 
-Sessions
+Pyramid запускается как на Jython, так и на PyPy.
+Тем не менее Chameleon не работает на обоих, но вы можете использовать шаблонизаторы Mako или Jinja2 на этих платформах.
+
+Сессии
 ~~~~~~~~
 
-Pyramid now has built-in sessioning support, documented in
-:ref:`sessions_chapter`.  The sessioning implementation is pluggable.  It
-also provides flash messaging and cross-site-scripting prevention features.
 
-Using ``request.session`` now returns a (dictionary-like) session object if
-a :term:`session factory` has been configured.
+Теперь Pyramid имеет встроенную поддержку сессий, документированную в :ref:`sessions_chapter`. Конкретные реализации сессий можно подключать. Также поддерживается flash-сообщения и защита от XSS.
 
-A new argument to the Configurator constructor exists: ``session_factory``
-and a new method on the configurator exists:
-:meth:`pyramid.config.Configurator.set_session_factory`.
+``request.session`` это (dict-подобный) обьект сессия, если :term:`session factory` сконфигурировано.
+
+Добавлен новый аргумент ``session_factory`` к конструктору Configurator-а, и новый метод :meth:`pyramid.config.Configurator.set_session_factory`.
 
 Mako
 ~~~~
 
-In addition to Chameleon templating, Pyramid now also provides built-in
-support for :term:`Mako` templating.  See :ref:`mako_templates` for more
-information.
+В добавок к шаблонизатору Chameleon, Pyramid имеет встроенную поддержку :term:`Mako`. Посмотрите :ref:`mako_templates` для дополнительной информации.
 
 URL Dispatch
 ~~~~~~~~~~~~
 
-- URL Dispatch now allows for replacement markers to be located anywhere
-  in the pattern, instead of immediately following a ``/``.
+- URL Dispatch теперь поддерживает маркеры везде, а не только сразу после ``/``.
 
-- URL Dispatch now uses the form ``{marker}`` to denote a replace marker in
-  the route pattern instead of ``:marker``. The old colon-style marker syntax
-  is still accepted for backwards compatibility. The new format allows a
-  regular expression for that marker location to be used instead of the
-  default ``[^/]+``, for example ``{marker:\d+}`` is now valid to require the
-  marker to be digits.
+- URL Dispatch теперь использует запись  ``{marker}`` вместо ``:marker``. Старый синтаксис маркеров, все еще доступен в целях совместимости. Новый формат поддерживает регулярные выражения в маркерах, вместо стандартного ``[^/]+``, например  ``{marker:\d+}`` маркер из цифр.
 
 - Addded a new API :func:`pyramid.url.current_route_url`, which computes a
   URL based on the "current" route (if any) and its matchdict values.
 
-- Added a ``paster proute`` command which displays a summary of the routing
-  table.  See the narrative documentation section entitled
-  :ref:`displaying_application_routes`.
+- Добавлена команда ``paster proute``, которая показывает всю имеющеюся таблицу роутинга. Почитайте документацию :ref:`displaying_application_routes`.
 
 - Added ``debug_routematch`` configuration setting (settable in your ``.ini``
   file) that logs matched routes including the matchdict and predicates.
 
-- Add a :func:`pyramid.url.route_path` API, allowing folks to generate
-  relative URLs.  Calling ``route_path`` is the same as calling
-  :func:`pyramid.url.route_url` with the argument ``_app_url`` equal to the
-  empty string.
+- Добавлена функция :func:`pyramid.url.route_path`, которая генерирует относительные URL-ы. Вызов ``route_path`` это то же самое, что и вызов :func:`pyramid.url.route_url` с аргументом ``_app_url`` равным пустой строке.
 
-- Add a :meth:`pyramid.request.Request.route_path` API.  This is a
-  convenience method of the request which calls
-  :func:`pyramid.url.route_url`.
+- Добавлено API :meth:`pyramid.request.Request.route_path`. Это вспомогательный метод request-обьекта, который вызывает :func:`pyramid.url.route_url`.
 
-- Added class vars ``matchdict`` and ``matched_route`` to
-  :class:`pyramid.request.Request`.  Each is set to ``None`` when a route
-  isn't matched during a request.
+- Добавлены поля ``matchdict`` и ``matched_route`` к :class:`pyramid.request.Request`. Каждый из них устанавливается в ``None`` когда роутинг не произведен во время запроса.
 
-ZCML Externalized
-~~~~~~~~~~~~~~~~~
+Вынесение ZCML в отдельный модуль
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- The ``load_zcml`` method of a Configurator has been removed from the
-  Pyramid core.  Loading ZCML is now a feature of the :term:`pyramid_zcml`
-  package, which can be downloaded from PyPI.  Documentation for the package
-  should be available via
-  http://pylonsproject.org/projects/pyramid_zcml/dev/, which describes how to
-  add a configuration statement to your ``main`` block to reobtain this
-  method.  You will also need to add an ``install_requires`` dependency upon
-  the ``pyramid_zcml`` distribution to your ``setup.py`` file.
+- Метод ``load_zcml`` класса Configurator был удален из Pyramid.  Загрузка ZCML это теперь прерогатива пакета :term:`pyramid_zcml`, который может быть загружен из PyPI.
+Документация пакета доступна в http://pylonsproject.org/projects/pyramid_zcml/dev/, где описывается как добавить конфигуратор в ваш блок ``main`` чтобы переопределить этот метод. Вам также нужно добавить 
+зависимость к ``pyramid_zcml`` в ``install_requires`` вашего 
+файла ``setup.py``.
 
-- The "Declarative Configuration" narrative chapter has been removed (it was
-  moved to the ``pyramid_zcml`` package).
+- Глава  "Declarative Configuration" удалена из документации (ее переместили в пакет ``pyramid_zcml``).
 
-- Most references to ZCML in narrative chapters have been removed or
-  redirected to ``pyramid_zcml`` locations.
+- Большинство ссылок на ZCML были перенесены в документацию ``pyramid_zcml``.
 
-- The ``starter_zcml`` paster template has been moved to the ``pyramid_zcml``
-  package.
+- Шаблон ``starter_zcml`` перемещен в пакет ``pyramid_zcml``.
 
-Imperative Two-Phase Configuration
+Императивная Конфигурация
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To support application extensibility, the :app:`Pyramid`
-:term:`Configurator`, by default, now detects configuration conflicts and
-allows you to include configuration imperatively from other packages or
-modules.  It also, by default, performs configuration in two separate phases.
-This allows you to ignore relative configuration statement ordering in some
-circumstances.  See :ref:`advconfig_narr` for more information.
+Для поддержки расширяемости приложений :term:`Configurator` :app:`Pyramid`, по умолчанию, определяет конфликты конфигурации и позволяет подгружать императивную конфигурацию из других пактов и модулей. Также по умолчанию конфигурация делится на две независимые фазы. Это позволяет игнорировать релятивную конфигурацию в некоторых ситуациях. Посмотрите :ref:`advconfig_narr` для дополнительной информации.
 
-The :meth:`pyramid.config.Configurator.add_directive` allows framework
-extenders to add methods to the configurator, which allows extenders to avoid
-subclassing a Configurator just to add methods.  See :ref:`add_directive` for
-more info.
+Метод :meth:`pyramid.config.Configurator.add_directive`  позволяет делать расширения конфигуратора добавлением методов, чтобы избежать наследования Configurator-а просто для добавления методов. Посмотрите :ref:`add_directive` для информации.
 
-Surrounding application configuration with ``config.begin()`` and
-``config.end()`` is no longer necessary.  All paster templates have been
-changed to no longer call these functions.
+Больше нет необходимости обрамлять конфигурацию ``config.begin()`` и  ``config.end()``. Все шаблоны paster больше не используют эти функции.
 
-Better Support for Global Template Variables During Rendering
+Лучшая поддержка глобальных переменных при рендеринге
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A new event type named :class:`pyramid.interfaces.IBeforeRender` is now sent
-as an event before a renderer is invoked.  Applications may now subscribe to
-the ``IBeforeRender`` event type in order to introspect the and modify the
-set of renderer globals before they are passed to a renderer.  The event
-object iself has a dictionary-like interface that can be used for this
-purpose.  For example::
 
-    from repoze.events import subscriber
-    from pyramid.interfaces import IRendererGlobalsEvent
+Новый тип событий :class:`pyramid.interfaces.IBeforeRender` теперь посылается перед рендерингом. Приложения могут подписываться на событие ``IBeforeRender``, чтобы изменить переменные шаблона перед запуском рендерера. Событие имеет dict-подобный интерфейс который может быть использован для этих целей. К примеру::
 
-    @subscriber(IRendererGlobalsEvent)
-    def add_global(event):
-        event['mykey'] = 'foo'
+from repoze.events import subscriber
+from pyramid.interfaces import IRendererGlobalsEvent
+
+@subscriber(IRendererGlobalsEvent)
+def add_global(event):
+event['mykey'] = 'foo'
 
 View Mappers
 ~~~~~~~~~~~~
 
-A "view mapper" subsystem has been extracted, which allows framework
-extenders to control how view callables are constructed and called.  This
-feature is not useful for "civilians", only for extension writers.  See
-:ref:`using_a_view_mapper` for more information.
+Система вью-мапперов расширена и позволяет фреймворку контролировать как вызываемые-обьекты были созданы и использованны. Посмотрите :ref:`using_a_view_mapper`, для дополнительной информации.
 
-Testing Support Improvements
+Улучшения возможностей тестирования
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :func:`pyramid.testing.setUp` and :func:`pyramid.testing.tearDown` APIs
-have been undeprecated.  They are now the canonical setup and teardown APIs
-for test configuration, replacing "direct" creation of a Configurator.  This
-is a change designed to provide a facade that will protect against any future
-Configurator deprecations.
+Функции `pyramid.testing.setUp` и :func:`pyramid.testing.tearDown` снова актуальны. Теперь это стандартные API, для конфигурации тестирования. Это изменение сделано для создания абстракции, которая защитит от дальнейших изменений API Configurator-а.
 
-Authentication Support Improvements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Аутентификация
+~~~~~~~~~~~~~~~ 
 
-- The :class:`pyramid.interfaces.IAuthenticationPolicy` interface now
-  specifies an ``unauthenticated_userid`` method.  This method supports an
-  important optimization required by people who are using persistent storages
-  which do not support object caching and whom want to create a "user object"
-  as a request attribute.
+- Интерфейс :class:`pyramid.interfaces.IAuthenticationPolicy` теперь содержит метод ``unauthenticated_userid``. Этот метод нужен людям, которые используют хранилища не поддерживающие кэширования обьектов, и хотят создать "user object" как атрибут запроса.
 
-- A new API has been added to the :mod:`pyramid.security` module named
-  ``unauthenticated_userid``.  This API function calls the
-  ``unauthenticated_userid`` method of the effective security policy.
+- Новое API добавлено к модулю :mod:`pyramid.security`, функция :mod:`pyramid.security`. Она вызывает метод ``unauthenticated_userid``.
 
-- The class :class:`pyramid.authentication.AuthTktCookieHelper` is now an
-  API.  This class can be used by third-party authentication policy
-  developers to help in the mechanics of authentication cookie-setting.
+- Класс :class:`pyramid.authentication.AuthTktCookieHelper`  теперь входит в API. Этот класс может быть использован для внешних политик безопасности, разработанных для помощи в установке Cookies.
 
-- The :class:`pyramid.authentication.AuthTktAuthenticationPolicy` now accepts
-  a ``tokens`` parameter via :func:`pyramid.security.remember`.  The value
-  must be a sequence of strings.  Tokens are placed into the auth_tkt
-  "tokens" field and returned in the auth_tkt cookie.
+- Класс :class:`pyramid.authentication.AuthTktAuthenticationPolicy` теперь принимает параметр `tokens`` с помощью функции :func:`pyramid.security.remember`. Значение должно быть последовательностью строк. Токены также добавляются в поле auth_tkt и возвращаются в auth_tkt Cookie.
 
-- Added a ``wild_domain`` argument to
-  :class:`pyramid.authentication.AuthTktAuthenticationPolicy`, which defaults
-  to ``True``.  If it is set to ``False``, the feature of the policy which
-  sets a cookie with a wilcard domain will be turned off.
+-  Добавлен аргумент ``wild_domain`` в класс :class:`pyramid.authentication.AuthTktAuthenticationPolicy`, по умолчанию установленный в ``True``. Если установить его в ``False``,  то политика безопасности которая устанавливает cookie с wildcard доменом, отключается.
 
-Documentation Improvements
+Улучшения Документации
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Casey Duncan, a good friend, and an excellent technical writer has given us
-  the gift of professionally editing the entire Pyramid documentation set.
-  Any faults in the documentation are the development team's, and all
-  improvements are his.
+- Глава "Resource Location and View Lookup" была  на заменена на статью Роба Миллера "Much Ado About Traversal" 
+(оригинал http://blog.nonsequitarian.org/2010/much-ado-about-traversal/).
 
-- The "Resource Location and View Lookup" chapter has been replaced with a
-  variant of Rob Miller's "Much Ado About Traversal" (originally published at
-  http://blog.nonsequitarian.org/2010/much-ado-about-traversal/).
+- Множество пользователей внесли изменения в документацию.
 
-- Many users have contributed documentation fixes and improvements including
-  Ben Bangert, Blaise Laflamme, Rob Miller, Mike Orr, Carlos de la Guardia,
-  Paul Everitt, Tres Seaver, John Shipman, Marius Gedminas, Chris Rossi,
-  Joachim Krebs, Xavier Spriet, Reed O'Brien, William Chambers, Charlie
-  Choiniere, and Jamaludin Ahmad.
+Мелкие Изменения
+----------------------------
 
-Minor Feature Additions
------------------------
+- Словарь ``settings`` был поглощен классом Configurator, и доступен как ( ``config.registry.settings`` в коде конфигурации и ``request.registry.settings`` в коде view-ов ).
 
-- The ``settings`` dictionary passed to the Configurator is now available as
-  ``config.registry.settings`` in configuration code and
-  ``request.registry.settings`` in view code).
-
-- :meth:`pyramid.config.Configurator.add_view` now accepts a ``decorator``
-  keyword argument, a callable which will decorate the view callable before
-  it is added to the registry.
+- Метод :meth:`pyramid.config.Configurator.add_view` теперь принимает  именованный аргумент ``decorator``, функцию которой нужно декорировать view, перед его добавлением в рееестр.
 
 - Allow static renderer provided during view registration to be overridden at
   request time via a request attribute named ``override_renderer``, which
   should be the name of a previously registered renderer.  Useful to provide
   "omnipresent" RPC using existing rendered views.
 
-- If a resource implements a ``__resource_url__`` method, it will be called
-  as the result of invoking the :func:`pyramid.url.resource_url` function to
-  generate a URL, overriding the default logic.  See
-  :ref:`generating_the_url_of_a_resource` for more information.
+- Если ресурс определил метод ``__resource_url__``, то его вызовут в результате применения :func:`pyramid.url.resource_url` для создания url не соответствующего стандартной логике.  Для дополнительной информации почитайте :ref:`generating_the_url_of_a_resource`.
 
-- The name ``registry`` is now available in a ``pshell`` environment by
-  default.  It is the application registry object.
+-  Имя  ``registry`` теперь доступно в окружении ``pshell``.
 
-- Added support for json on Google App Engine by catching
-  :exc:`NotImplementedError` and importing ``simplejson`` from
-  ``django.utils``.
+- Добавлена поддержка json на  Google App Engine, через обработку исключения :exc:`NotImplementedError` и импорта ``simplejson`` из ``django.utils``.
 
-- Added the :mod:`pyramid.httpexceptions` module, which is a facade for the
-  ``webob.exc`` module.
+- Добавлен модуль :mod:`pyramid.httpexceptions`, который является синонимом к ``webob.exc``.
 
-- New class: :class:`pyramid.response.Response`.  This is a pure facade for
-  ``webob.Response`` (old code need not change to use this facade, it's
-  existence is mostly for vanity and documentation-generation purposes).
+- Новый класс  class:`pyramid.response.Response`. Это синоним к ``webob.Response`` (старый код не должен изменятся на использование этого имени, оно создано в основном для целей документации).
 
-- The request now has a new attribute: ``tmpl_context`` for benefit of
-  Pylons users.
+- Request теперь имеет новый атрибут ``tmpl_context`` , для удобства пользователей Pylons.
 
-- New API methods for :class:`pyramid.request.Request`: ``model_url``,
-  ``route_url``, and ``static_url``.  These are simple passthroughs for their
-  respective functions in :mod:`pyramid.url`.
+- Новые API :class:`pyramid.request.Request`: ``model_url``,
+``route_url`` и  ``static_url``. Это простые ссылки на соответствующие им ссылки в :mod:`pyramid.url`.
 
-Backwards Incompatibilities
----------------------------
+Обратная несовместимость
+------------------------------------
 
-- When a :class:`pyramid.exceptions.Forbidden` error is raised, its status
-  code now ``403 Forbidden``.  It was previously ``401 Unauthorized``, for
-  backwards compatibility purposes with :mod:`repoze.bfg`.  This change will
-  cause problems for users of Pyramid with :mod:`repoze.who`, which
-  intercepts ``401 Unauthorized`` by default, but allows ``403 Forbidden`` to
-  pass through.  Those deployments will need to configure :mod:`repoze.who`
-  to also react to ``403 Forbidden``.  To do so, use a repoze.who
-  ``challenge_decider`` that looks like this::
+- Когда совершена ошибка :class:`pyramid.exceptions.Forbidden` ее HTTP код статуса сейчас `403 Forbidden``. Раньше же он был ``401 Unauthorized``, для обратной совместимости с :mod:`repoze.bfg`. Изменение может вызвать проблемы у пользователей :mod:`repoze.who`. Им необходимо сконфигурировать  :mod:`repoze.who` на взаимодействие с ``403 Forbidden``.. Сделать это используя ``challenge_decider`` можно так::
 
-     import zope.interface
-     from repoze.who.interfaces import IChallengeDecider
+import zope.interface
+from repoze.who.interfaces import IChallengeDecide
 
-     def challenge_decider(environ, status, headers):
-         return status.startswith('403') or status.startswith('401')
-     zope.interface.directlyProvides(challenge_decider, IChallengeDecider)
+def challenge_decider(environ, status, headers):
+return status.startswith('403') or status.startswith('401')
+zope.interface.directlyProvides(challenge_decider, IChallengeDecider)
 
-- The ``paster bfgshell`` command is now known as ``paster pshell``.
+- Команда ``paster bfgshell`` переименована в ``paster pshell``.
 
-- There is no longer an ``IDebugLogger`` object registered as a named utility
-  with the name ``repoze.bfg.debug``.
+- Больше нет объекта ``IDebugLogger``. Теперь он зарегистрирован, как утилита ``repoze.bfg.debug``.
 
-- These deprecated APIs have been removed:
-  ``pyramid.testing.registerViewPermission``,
-  ``pyramid.testing.registerRoutesMapper``, ``pyramid.request.get_request``,
-  ``pyramid.security.Unauthorized``,
-  ``pyramid.view.view_execution_permitted``, ``pyramid.view.NotFound``
+- Следующие API были удалены :
+``pyramid.testing.registerViewPermission``,
+``pyramid.testing.registerRoutesMapper``, ``pyramid.request.get_request``,
+``pyramid.security.Unauthorized``,
+``pyramid.view.view_execution_permitted``, ``pyramid.view.NotFound``
 
 - The Venusian "category" for all built-in Venusian decorators
   (e.g. ``subscriber`` and ``view_config``/``bfg_view``) is now
   ``pyramid`` instead of ``bfg``.
 
-- The ``pyramid.renderers.rendered_response`` function removed; use
-  :func:`pyramid.renderers.render_to_response` instead.
+Функция ``pyramid.renderers.rendered_response``  заменена на :func:`pyramid.renderers.render_to_response`.
 
 - Renderer factories now accept a *renderer info object* rather than an
   absolute resource specification or an absolute path.  The object has the
@@ -450,66 +313,34 @@ Backwards Incompatibilities
   need to account for this.  This change was made primarily to support more
   flexible Mako template rendering.
 
-- The presence of the key ``repoze.bfg.message`` in the WSGI environment when
-  an exception occurs is now deprecated.  Instead, code which relies on this
-  environ value should use the ``exception`` attribute of the request
-  (e.g. ``request.exception[0]``) to retrieve the message.
+- Предназначение ``repoze.bfg.message`` теперь устарело. Используйте атрибут ``exception`` запроса (к примеру  ``request.exception[0]``) чтобы передать сообщение.
 
-- The values ``bfg_localizer`` and ``bfg_locale_name`` kept on the request
-  during internationalization for caching purposes were never APIs.  These
-  however have changed to ``localizer`` and ``locale_name``, respectively.
+- Значения ``bfg_localizer`` и ``bfg_locale_name`` сохраняются при запросе во время интернализации для целей новоых API. Они заменены на ``localizer`` и ``locale_name``, соответственно.
 
 - The default ``cookie_name`` value of the
   :class:`pyramid.authentication.AuthTktAuthenticationPolicy` now defaults to
   ``auth_tkt`` (it used to default to ``repoze.bfg.auth_tkt``).
 
-- The :func:`pyramid.testing.zcml_configure` API has been removed.  It had
-  been advertised as removed since :mod:`repoze.bfg` 1.2a1, but hadn't
-  actually been.
+- Функция :func:`pyramid.testing.zcml_configure` удалена. Ее удаление было анонсировано еще в  :mod:`repoze.bfg` 1.2a1, но в действительности еще не было совершено.
 
-- All environment variables which used to be prefixed with ``BFG_`` are now
-  prefixed with ``PYRAMID_`` (e.g. ``BFG_DEBUG_NOTFOUND`` is now
-  ``PYRAMID_DEBUG_NOTFOUND``)
+- Переменные окружения начинавшиеся на  ``BFG_`` теперь начинаются на ``PYRAMID_`` (например `BFG_DEBUG_NOTFOUND`` теперь
+``PYRAMID_DEBUG_NOTFOUND``)
 
-- Since the :class:`pyramid.interfaces.IAuthenticationPolicy` interface now
-  specifies that a policy implementation must implement an
-  ``unauthenticated_userid`` method, all third-party custom authentication
-  policies now must implement this method.  It, however, will only be called
-  when the global function named
-  :func:`pyramid.security.unauthenticated_userid` is invoked, so if you're
-  not invoking that, you will not notice any issues.
+- Теперь реализация интерфейса :class:`pyramid.interfaces.IAuthenticationPolicy`  обязана определять метод ``unauthenticated_userid``. Она вызывается, с помощью глобальной функции :func:`pyramid.security.unauthenticated_userid`, так что если вы ее не используете вы не заметите изменений.
 
-- The ``configure_zcml`` setting within the deployment settings (within
-  ``**settings`` passed to a Pyramid ``main`` function) has ceased to have any
-  meaning.
+- ``configure_zcml`` без каких либо настроек развертывания (**settings), больше не имеет никакого смысла.
 
-- The ``make_app`` function has been removed from the :mod:`pyramid.router`
-  module.  It continues life within the ``pyramid_zcml`` package.  This
-  leaves the :mod:`pyramid.router` module without any API functions.
+- Функция ``make_app`` была удалена из модуля :mod:`pyramid.router`. Она продолжит существовать, но теперь в пакете ``pyramid_zcml``. Это оставляет модуль :mod:`pyramid.router` без каких либо функций API.
 
-Deprecations and Behavior Differences
--------------------------------------
+Устаревшее
+----------------
 
-- :class:`pyramid.configuration.Configurator` is now deprecated.  Use
-  :class:`pyramid.config.Configurator`, passing its constructor
-  ``autocommit=True`` instead.  The
-  :class:`pyramid.configuration.Configurator` alias will live for a long
-  time, as every application uses it, but its import now issues a deprecation
-  warning.  The :class:`pyramid.config.Configurator` class has the same API
-  as the :class:`pyramid.configuration.Configurator` class, which it means to
-  replace, except by default it is a *non-autocommitting* configurator. The
-  now-deprecated ``pyramid.configuration.Configurator`` will autocommit every
-  time a configuration method is called.  The :mod:`pyramid.configuration`
-  module remains, but it is deprecated.  Use :mod:`pyramid.config` instead.
+- Класс :class:`pyramid.configuration.Configurator` объявлен устаревшим. Используйте класс :class:`pyramid.config.Configurator`, с параметром ``autocommit=True``, вместо него. Ссылка :class:`pyramid.configuration.Configurator`  будет оставаться долгое время, так как его использует каждое приложение. Но его импорт будет вызывать предупреждение, об устаревшей функции. :class:`pyramid.config.Configurator`  имеет то же API но авто-коммит отключен, по умолчанию. ``pyramid.configuration.Configurator`` же совершает коммит, после каждого изменения конфигурации.
 
-- The :func:`pyramid.settings.get_settings` API is now deprecated.  Use
-  ``pyramid.threadlocals.get_current_registry().settings`` instead or use the
-  ``settings`` attribute of the registry available from the request
-  (``request.registry.settings``).
+- Функция func:`pyramid.settings.get_settings`  устарела. Используйте ``pyramid.threadlocals.get_current_registry().settings``  вместо нее. Так же вы можете использовать поле ``settings``  доступное из request-объекта (``request.registry.settings``).
 
-- The decorator previously known as ``pyramid.view.bfg_view`` is now known
-  most formally as :class:`pyramid.view.view_config` in docs and paster
-  templates.
+
+- Декоратор ранее известный как ``pyramid.view.bfg_view``, теперь называется более формально :class:`pyramid.view.view_config`.
 
 - Obtaining the ``settings`` object via
   ``registry.{get|query}Utility(ISettings)`` is now deprecated.  Instead,
@@ -518,60 +349,52 @@ Deprecations and Behavior Differences
   the settings object as an ISettings utility when ``setattr(registry,
   'settings', foo)`` is called, but it will be removed in a later release.
 
-- Obtaining the ``settings`` object via :func:`pyramid.settings.get_settings`
-  is now deprecated.  Obtain it instead as the ``settings`` attribute of the
-  registry now (obtain the registry via
-  :func:`pyramid.threadlocal.get_registry` or as ``request.registry``).
+- Доступ к объекту ``settings``, через :func:`pyramid.settings.get_settings` устарел. Теперь используйте для этого поле ``settings`` реестра ( доступ к реестру через :func:`pyramid.threadlocal.get_registry` или``request.registry``). 
 
-Dependency Changes
-------------------
+Изменение зависимостей
+----------------------------------
 
-- Depend on Venusian >= 0.5 (for scanning conflict exception decoration).
+Требуется Venusian >= 0.5.
 
-Documentation Enhancements
---------------------------
+Улучшения документации
+------------------------------------
 
-- Added a :mod:`pyramid.httpexceptions` API documentation chapter.
+- Добавлена глава документации API :mod:`pyramid.httpexceptions`.
 
-- Added a :mod:`pyramid.session` API documentation chapter.
+- Добавлена глава документации API :mod:`pyramid.session` .
 
-- Added an API chapter for the :mod:`pyramid.response` module.
+- Добавлена глава :mod:`pyramid.response`.
 
-- Added a :ref:`sessions_chapter` narrative documentation chapter.
+- Добавлена глава :ref:`sessions_chapter` в руководство.
 
-- All documentation which previously referred to ``webob.Response`` now uses
-  :class:`pyramid.response.Response` instead.
+- Вся документация ссылавшаяся на  ``webob.Response``, теперь использует :class:`pyramid.response.Response`.
 
-- The documentation has been overhauled to use imperative configuration,
-  moving declarative configuration (ZCML) explanations to an external
-  package, :term:`pyramid_zcml`.
+- Документация использует императивную конфигурацию, ведь теперь декларативная (ZCML) выделена во внешний пакет :term:`pyramid_zcml`.
 
-- Removed ``zodbsessions`` tutorial chapter.  It's still useful, but we now
-  have a SessionFactory abstraction which competes with it, and maintaining
-  documentation on both ways to do it is a distraction.
+- Удалена глава ``zodbsessions``. Их все еще можно использовать, но теперь появилась абстракция SessionFactory которая выполняет те же функции и разработка документации в обоих направлениях нецелесообразна.
 
-- Added an example of ``WebTest`` functional testing to the testing narrative
-  chapter at :ref:`functional_tests`.
+- Добавлен пример функционального тестирования ``WebTest`` в руководство, глава  :ref:`functional_tests`.
 
-- Extended the Resources chapter with examples of calls to resource-related
-  APIs.
+- Расширенна глава Ресурсы, примерами вызовов ресурсо-зависимых API.
 
-- Add "Pyramid Provides More Than One Way to Do It" to Design Defense
-  documentation.
+- Добавили  "Pyramid Provides More Than One Way to Do It"  к документации архитектуры.
 
-- The (weak) "Converting a CMF Application to Pyramid" tutorial has been
-  removed from the tutorials section.  It was moved to the
-  ``pyramid_tutorials`` Github repository at
-  http://docs.pylonsproject.org/projects/pyramid_tutorials/dev/.
+- Руководство "Converting a CMF Application to Pyramid" было удалено из секции руководств и перемещено в репозиторий ``pyramid_tutorials``.
 
-- Moved "Using ZODB With ZEO" and "Using repoze.catalog Within Pyramid"
-  tutorials out of core documentation and into the Pyramid Tutorials site
-  (http://docs.pylonsproject.org/projects/pyramid_tutorials/dev/).
+-Статьи "Using ZODB With ZEO" и "Using repoze.catalog Within Pyramid" перемещены из основной документации в Pyramid Tutorials.
 
-- Removed API documentation for deprecated ``pyramid.testing`` APIs named
-  ``registerDummySecurityPolicy``, ``registerResources``, ``registerModels``,
-  ``registerEventListener``, ``registerTemplateRenderer``,
-  ``registerDummyRenderer``, ``registerView``, ``registerUtility``,
-  ``registerAdapter``, ``registerSubscriber``, ``registerRoute``, and
-  ``registerSettings``.
+- Удалена документация для устаревших API модуля ``pyramid.testing`` :
+``registerDummySecurityPolicy``, ``registerResources``, ``registerModels``,
+``registerEventListener``, ``registerTemplateRenderer``,
+``registerDummyRenderer``, ``registerView``, ``registerUtility``,
+``registerAdapter``, ``registerSubscriber``, ``registerRoute``, и
+``registerSettings``.
 
+
+-------------------------------------------------------------------------------
+http://translated.by/you/what-s-new-in-pyramid-1-0/into-ru/trans/
+Оригинал (английский): What’s New In Pyramid 1.0 (http://docs.pylonsproject.org/projects/pyramid/1.0/whatsnew-1.0.html)
+Перевод: © uhbif19, ma832.
+Лицензия: Creative Commons
+
+translated.by переведено толпой
