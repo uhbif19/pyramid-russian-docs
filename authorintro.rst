@@ -1,83 +1,71 @@
 =====================
- Author Introduction
+ Авторское Вступление
 =====================
 
-Welcome to "The :app:`Pyramid` Web Application Framework".  In this
-introduction, I'll describe the audience for this book, I'll describe
-the book content, I'll provide some context regarding the genesis of
-:app:`Pyramid`, and I'll thank some important people.
+Добро пожаловать в "Веб-Фреймворк :app:`Pyramid`".  В жтом вступлении, 
+я опишу аудиторию этой книги, я опишу содержание этой книги, 
+я немного раскажу о происхождении :app:`Pyramid`, 
+и поблагодорю некоторых важных, для меня людей.
 
-I hope you enjoy both this book and the software it documents.  I've
-had a blast writing both.
+Я надеюсь Вам понравиться как эта книга, так и фреймворк который
+она документирует.
 
 .. index::
    single: book audience
 
-Audience
+Аудитория
 ========
 
-This book is aimed primarily at a reader that has the following
-attributes:
+Эта книга ориентированна на пользователя, обладающего следующими
+признаками :
 
-- At least a moderate amount of :term:`Python` experience.
+- По крайней мере небольшой опыт прогр:app:`Pyramid`аммирования :term:`Python`.
+- Базовые знания веб протоколов, например HTTP и CGI.
 
-- A familiarity with web protocols such as HTTP and CGI.
+Если вы не попадаете в эти категории, то вы безусловно целевая 
+аудитория книги. Но не расстраивайтесь, если вы не имеете необходимых 
+знаний, вы можете получить их "на лету".
 
-If you fit into both of these categories, you're in the direct target
-audience for this book.  But don't worry, even if you have no
-experience with Python or the web, both are easy to pick up "on the
-fly".
+Python - *отличный* язык, для разроботки приложений;
+продуктивно работать на Python не так сложно.  Если вы
+уже имеете опыт разроботки, на таких языках как Java, Visual
+Basic, Perl, Ruby, или может  C/C++, learning Python быдет простым;
+за несколько дней, уже можно достигнуть приемлимой производительности.
+Если вы не имели такого опыта, то изучение будет намного сложнее, 
+но вам придется очень постараться, чтобы найти "первый язык" лучше
+Python-а.
 
-Python is an *excellent* language in which to write applications;
-becoming productive in Python is almost mind-blowingly easy.  If you
-already have experience in another language such as Java, Visual
-Basic, Perl, Ruby, or even C/C++, learning Python will be a snap; it
-should take you no longer than a couple of days to become modestly
-productive.  If you don't have previous programming experience, it
-will be slightly harder, and it will take a little longer, but you'd
-be hard-pressed to find a better "first language."
-
-Web technology familiarity is assumed in various places within the
-book.  For example, the book doesn't try to define common web-related
-concepts like "URL" or "query string."  Likewise, the book describes
-various interactions in terms of the HTTP protocol, but it does not
-describe how the HTTP protocol works in detail.  Like any good web
-framework, though, :app:`Pyramid` shields you from needing to know
-most of the gory details of web protocols and low-level data
-structures. As a result, you can usually avoid becoming "blocked"
-while you read this book even if you don't yet deeply understand web
-technologies.
+Простота в употреблении терминов Web, принята в этой книге. Например
+мы не пытаемся определить URL или строку запроса. Конечно, книга 
+обьясняет взаимодействия в терминах протокола HTTP, но она не 
+обьясняет его строение в деталях.
 
 .. index::
    single: book content overview
 
-Book Content
-============
+Содержание книги
+=================
 
-This book is divided into three major parts:
+Книга разделена на три большие части :
 
 :ref:`narrative_documentation`
 
-  This is documentation which describes :app:`Pyramid` concepts in
-  narrative form, written in a largely conversational tone.  Each
-  narrative documentation chapter describes an isolated
-  :app:`Pyramid` concept.  You should be able to get useful
-  information out of the narrative chapters if you read them
-  out-of-order, or when you need only a reminder about a particular
-  topic while you're developing an application.
+  Эта часть документации описывает концепты :app:`Pyramid`
+  в форме руководства, написаного в основном в разговорном стиле.
+  Каждая глава Руководства содержит независимый концепт :app:`Pyramid`.
+  Вы можете получить представление о предмете главы, читая книгу 
+  не по порядку, или когда вы хотите увидеть подзабытый материал
+  во время разроботки приложения.
 
 :ref:`tutorials`
 
-  Each tutorial builds a sample application or implements a set of
-  concepts with a sample; it then describes the application or
-  concepts in terms of the sample.  You should read the tutorials if
-  you want a guided tour of :app:`Pyramid`.
+  Каждый туториал содержит пример приложения, или примеры использования
+  какого либо понятия :app:`Pyramid`.
 
 :ref:`api_reference`
 
-  Comprehensive reference material for every public API exposed by
-  :app:`Pyramid`.  The API documentation is organized
-  alphabetically by module name.
+  Подробное изложение каждого API доступного в  :app:`Pyramid`. 
+  Документация API упорядочена в алфавитном порядке, по модулям.
 
 .. index::
    single: repoze.zope2
@@ -86,57 +74,47 @@ This book is divided into three major parts:
    single: repoze.bfg genesis
    single: pyramid genesis
 
-The Genesis of :mod:`repoze.bfg`
+
+История :mod:`repoze.bfg`
 ================================
 
-Before the end of 2010, :app:`Pyramid` was known as :mod:`repoze.bfg`.
+До конца 2010 года, :app:`Pyramid` назывался :mod:`repoze.bfg`.
 
-I wrote :mod:`repoze.bfg` after many years of writing applications
-using :term:`Zope`.  Zope provided me with a lot of mileage: it wasn't
-until almost a decade of successfully creating applications using it
-that I decided to write a different web framework.  Although
-:mod:`repoze.bfg` takes inspiration from a variety of web frameworks,
-it owes more of its core design to Zope than any other.
+Я написал :mod:`repoze.bfg` после многих лет разроботки веб-приложений, 
+с использованием :term:`Zope`. Zope дал мне много опыта:
+после целой декады успешных веб-приложений я решил начать разроботку 
+своего своего веб-фреймворка.
 
-The Repoze "brand" existed before :mod:`repoze.bfg` was created.  One
-of the first packages developed as part of the Repoze brand was a
-package named :mod:`repoze.zope2`.  This was a package that allowed
-Zope 2 applications to run under a :term:`WSGI` server without
-modification.  Zope 2 did not have reasonable WSGI support at the
-time.
+Бренд Repoze существовал до создания :mod:`repoze.bfg`. Один из первых
+пакетов разроботанных, как часть Repoze назывался :mod:`repoze.zope2`.
+Этот пакет позволял запускать приложения Zope 2 под :term:`WSGI` 
+сервером, без доплнительной модификации. Zope 2 не имел поддержки 
+WSGI тогда.
 
-During the development of the :mod:`repoze.zope2` package, I found
-that replicating the Zope 2 "publisher" -- the machinery that maps
-URLs to code -- was time-consuming and fiddly.  Zope 2 had evolved
-over many years, and emulating all of its edge cases was extremely
-difficult.  I finished the :mod:`repoze.zope2` package, and it
-emulates the normal Zope 2 publisher pretty well.  But during its
-development, it became clear that Zope 2 had simply begun to exceed my
-tolerance for complexity, and I began to look around for simpler
-options.
+Во время разроботки :mod:`repoze.zope2` я понял что механизм репликации
+принятый в Zope -- был медленными и сложными.  Zope 2 разрабатывался 
+много лет и полная его эмуляция очень сложна.  Я законцил :mod:`repoze.zope2`
+и он Zope 2 достаточно хорошо. Но во время его разроботки мне стало ясно, что
+Zope 2 слишком сложный, и я начал искать более простые варианты.
 
-I considered using the Zope 3 application server machinery, but it
-turned out that it had become more indirect than the Zope 2 machinery
-it aimed to replace, which didn't fulfill the goal of simplification.
-I also considered using Django and Pylons, but neither of those
-frameworks offer much along the axes of traversal, contextual
-declarative security, or application extensibility; these were
-features I had become accustomed to as a Zope developer.
+Я пробовал использовать Zope 3, но она не сильно продвинулась в 
+вопросе упрощения ахитектуры. Я такжен пробовал Django и Pylons, 
+но ни один из них не обеспечивал поддержку traversal, декларативного 
+описания защиты, расширяемости приложений; это вещ к кторым я уже
+привык, как разроботкик Zope.
 
-I decided that in the long term, creating a simpler framework that
-retained features I had become accustomed to when developing Zope
-applications was a more reasonable idea than continuing to use any
-Zope publisher or living with the limitations and unfamiliarities of a
-different framework.  The result is what is now :app:`Pyramid`.
+Моей целью, было создать платформу простую и при этом сохраняющую 
+возможности Zope, избавленную от ограничений и алогичностей других
+фреймворков.
 
-The Genesis of :app:`Pyramid`
+
+Происхождение:app:`Pyramid`
 =============================
 
-What was :mod:`repoze.bfg` has become :app:`Pyramid` as the result of
-a coalition built between the :term:`Repoze` and :term:`Pylons`
-community throughout the year 2010.  By merging technology, we're able
-to reduce duplication of effort, and take advantage of more of each
-others' technology.
+То что :mod:`repoze.bfg` стал называться :app:`Pyramid` это результат
+обьединения команд :term:`Repoze` и :term:`Pylons`в 2010 году. 
+Мы обьеденили наши нароботки, что-бы не дублировать усилия и 
+больше взаимодействовать с другими технологиями.
 
 .. index::
    single: Bicking, Ian
@@ -165,22 +143,21 @@ others' technology.
    single: Shipman, John
    single: Beelby, Chris
 
-Thanks
-======
+Благодарности
+==============
 
-This book is dedicated to my grandmother, who gave me my first
-typewriter (a Royal), and my mother, who bought me my first computer
-(a VIC-20).
+Эта книга посвящается моей бабушки, которая подрила мне первую мою
+печатную машинку (Royal), и моей маме, которая купила мне первый компьютер
+(VIC-20).
 
-Thanks to the following people for providing expertise, resources, and
-software.  Without the help of these folks, neither this book nor the
-software which it details would exist: Paul Everitt, Tres Seaver, Andrew
-Sawyers, Malthe Borch, Carlos de la Guardia, Chris Rossi, Shane Hathaway,
-Daniel Holth, Wichert Akkerman, Georg Brandl, Blaise Laflamme, Ben Bangert,
-Casey Duncan, Hugues Laflamme, Mike Orr, John Shipman, Chris Beelby, Simon
-Oram, Nat Hardwick, Ian Bicking, Jim Fulton, Tom Moroz of the Open Society
-Institute, and Todd Koym of Environmental Health Sciences.
+Выражаю свою благодарность следующим людям за их экспертную окенку, силы и 
+программы. Без них не было бы ни этой книги, ни того о чем она повествует: 
+Paul Everitt, Tres Seaver, Andrew Sawyers, Malthe Borch, Carlos de la Guardia,
+Chris Rossi, Shane Hathaway, Daniel Holth, Wichert Akkerman, Georg Brandl,
+Blaise Laflamme, Ben Bangert, Casey Duncan, Hugues Laflamme, Mike Orr,
+John Shipman, Chris Beelby, Simon Oram, Nat Hardwick, Ian Bicking, Jim Fulton,
+Tom Moroz of the Open Society Institute, and Todd Koym of Environmental Health Sciences.
 
-Thanks to Guido van Rossum and Tim Peters for Python.
+Спасибо Гвидо ван Россуму и Тиму Петерсу за Python.
 
-Special thanks to Tricia for putting up with me.
+Особая благодарность Триссии, за то что она меня выносит.
