@@ -1,162 +1,63 @@
 .. _much_ado_about_traversal_chapter:
 
 ========================
-Much Ado About Traversal
+Траверс в Pyramid
 ========================
 
-.. note:: This chapter was adapted, with permission, from a blog post by `Rob
-   Miller <http://blog.nonsequitarian.org/>`_, originally published at
-   http://blog.nonsequitarian.org/2010/much-ado-about-traversal/ .
+.. note:: Это вольный перевод полезной статьи в блоге Роба Миллера (Rob Miller) об альтерантивном URL матчингу способе обработки HTTP запросов в фреймворке Pyramid. Статья также стала частью документации самого фреймворка. Читатель данной статьи должен обладать определенным уровнем знаний и иметь представления о многих аспектах разработки.
 
-Traversal is an alternative to :term:`URL dispatch` which allows
-:app:`Pyramid` applications to map URLs to code.
+Траверс это альтернатива URL диспатчу, принятая в Pyramid.
 
-.. note::
-   
-   Ex-Zope users whom are already familiar with traversal and view lookup
-   conceptually may want to skip directly to the :ref:`traversal_chapter`
-   chapter, which discusses technical details.  This chapter is mostly aimed
-   at people who have previous :term:`Pylons` experience or experience in
-   another framework which does not provide traversal, and need an
-   introduction to the "why" of traversal.
+.. note:: Пользователи знакомые с Zope уже вероятно представляют себе работу алгоритма траверса и могут сразу переходить к главе :ref:`traversal_chapter`, за техническими подробностями. Эта глава нужно в основном людям, работавшим с Pylons, которым сложно понять принцип работы траверса.
 
-Some folks who have been using Pylons and its Routes-based URL matching for a
-long time are being exposed for the first time, via :app:`Pyramid`, to new
-ideas such as ":term:`traversal`" and ":term:`view lookup`" as a way to route
-incoming HTTP requests to callable code.  Some of the same folks believe that
-traversal is hard to understand.  Others question its usefulness; URL
-matching has worked for them so far, why should they even consider dealing
-with another approach, one which doesn't fit their brain and which doesn't
-provide any immediately obvious value?
+Обычно люди, которые долгое время работали с Pylons или с каким-либо другим фреймворком, и с их роутингом URL немного удивляются тому, как устроена обработка и роутинг HTTP запросов в Pyramid и таким понятиям, как траверс и поиск представлений. Другие люди считают, что траверс сложен для понимания. Кто-то думает, что траверс бесполезен, потому как они успешно работали со стандартным URL матчингом и он полностью подходил для их задач. Почему они должны переходить на другой, более сложный, способ роутинга?
 
-You can be assured that if you don't want to understand traversal, you don't
-have to.  You can happily build :app:`Pyramid` applications with only
-:term:`URL dispatch`.  However, there are some straightforward, real-world
-use cases that are much more easily served by a traversal-based approach than
-by a pattern-matching mechanism.  Even if you haven't yet hit one of these
-use cases yourself, understanding these new ideas is worth the effort for any
-web developer so you know when you might want to use them.  :term:`Traversal`
-is actually a straightforward metaphor easily comprehended by anyone who's
-ever used a run-of-the-mill file system with folders and files.
+Если вы не хотите понимать траверс, то вы можете обойтись без него. Можно без проблем создавать Pyramid приложения и без понимания этой концепции. Тем не менее, в реальной разработке встречается множество задач, которые траверс решает изящнее и лучше, чем классический URL матчинг, основанный на регулярных выражениях. Возможно, вы не сталкивались с такими ситуациями ранее, однако понимание их может помочь вам в будущем. Траверс (traversal) — это, по сути, метафора, легко понятная тем, кто хорошо представляет себе суть директорий и файлов в них.
 
-URL Dispatch
+
+
+URL диспатч
 ------------
 
-Let's step back and consider the problem we're trying to solve.  An
-HTTP request for a particular path has been routed to our web
-application.  The requested path will possibly invoke a specific
-:term:`view callable` function defined somewhere in our app.  We're
-trying to determine *which* callable function, if any, should be
-invoked for a given requested URL.
+Вернемся к классическому роутингу и рассмотрим проблему, которую надо решить. HTTP запрос с адресом передается нашему приложению. Путь запроса повлечет за собой вызов специфичной функции-представления внутри нашего приложения. Мы пытаемся определить, какую функцию-представление (если она существует) мы должны вызвать для текущего URL.
 
-Many systems, including Pyramid, offer a simple solution.  They offer the
-concept of "URL matching".  URL matching approaches this problem by parsing
-the URL path and comparing the results to a set of registered "patterns",
-defined by a set of regular expressions, or some other URL path templating
-syntax.  Each pattern is mapped to a callable function somewhere; if the
-request path matches a specific pattern, the associated function is called.
-If the request path matches more than one pattern, some conflict resolution
-scheme is used, usually a simple order precedence so that the first match
-will take priority over any subsequent matches.  If a request path doesn't
-match any of the defined patterns, a "404 Not Found" response is returned.
+Множество систем, в том числе и Pyramid, предлагают простое решение — обычный URL матчинг. URL матчинг работает так, что парсит URL и сравнивает результаты с множеством явно заданных шаблонов (элементов роутинга), заданных обычными регулярными выражениями (или другим синтаксисом). Каждый такой шаблон (один элемент из множества правил роутера) связан с представлением. Если путь запроса соответствует какому-либо заданному шаблону, то вызывается связанная с ним функция-представление. Если путь запроса подходит сразу нескольким шаблонам, то применяется несколько иная схема разрешения конфликтов, обычно основанная на том, что вызывается та функция-представление, которая совпала с заданным путем запроса раньше и вызывается. Если из всего множества шаблонов, предопределенных разработчиком, не подошел ни один шаблон, то отдается ответ 404 Not Found.
 
-In Pyramid, we offer an implementation of URL matching which we call
-:term:`URL dispatch`.  Using :app:`Pyramid` syntax, we might have a match
-pattern such as ``/{userid}/photos/{photoid}``, mapped to a ``photo_view()``
-function defined somewhere in our code.  Then a request for a path such as
-``/joeschmoe/photos/photo1`` would be a match, and the ``photo_view()``
-function would be invoked to handle the request.  Similarly,
-``/{userid}/blog/{year}/{month}/{postid}`` might map to a
-``blog_post_view()`` function, so ``/joeschmoe/blog/2010/12/urlmatching``
-would trigger the function, which presumably would know how to find and
-render the ``urlmatching`` blog post.
+В Pyramid предлагается для использования реализация классического URL матчинга. Используя синтаксис Pyramid мы можем связать шаблон /{userid}/photos/{photoid} с функцией-представлением photo_view(), которая определена в коде. Запрос вида /joeschmoe/photos/photo1 подойдет к этому шаблону и будет вызвана функция photo_view() для обработки запроса. Точно также шаблон /{userid}/blog/{year}/{month}/{postid} может быть привязан к функции blog_post_view() и запрос пути /joeschmoe/blog/2010/12/urlmatching вызовет функцию, которая наверное, знает, как найти и отобразить запрошенный пост блога.
 
-Historical Refresher
+Историческая справка
 --------------------
 
-Now that we've refreshed our understanding of :term:`URL dispatch`, we'll dig
-in to the idea of traversal.  Before we do, though, let's take a trip down
-memory lane.  If you've been doing web work for a while, you may remember a
-time when we didn't have fancy web frameworks like :term:`Pylons` and
-:app:`Pyramid`.  Instead, we had general purpose HTTP servers that primarily
-served files off of a file system.  The "root" of a given site mapped to a
-particular folder somewhere on the file system.  Each segment of the request
-URL path represented a subdirectory.  The final path segment would be either
-a directory or a file, and once the server found the right file it would
-package it up in an HTTP response and send it back to the client.  So serving
-up a request for ``/joeschmoe/photos/photo1`` literally meant that there was
-a ``joeschmoe`` folder somewhere, which contained a ``photos`` folder, which
-in turn contained a ``photo1`` file.  If at any point along the way we find
-that there is not a folder or file matching the requested path, we return a
-404 response.
+Когда мы немного освежили знания по классическому URL диспетчеру мы можем углубиться в идею траверса. Перед тем, как мы это сделаем давайте немного вспомним историю. Если вы работали некоторое время в веб-разработке, то вы, возможно, помните время, когда не было таких прекрасных фреймворков, как Pylons или Pyramid. Вместо этого, были HTTP серверы общего назначения, которые работали просто как серверы файловой системы. Корень определенного сайта был связан с определенной директорией. Каждый сегмент URL запроса представлял из себя поддиректорию. Последний сегмент пути обычно являлся или директорией или файлом. Когда сервер находил нужный файл, то упаковывал его в HTTP ответ и отправлял обратно клиенту. Таким образом, обслуживание запроса по адресу /joeschmoe/photos/photo1 фактически означало, что на диске должна быть директория joeschmoe, которая в свою очередь содержала директорию с фотографиями, в которой находился файл photo1. Если в процессе обработки пути нужный файл или директория не надились, то отдавался ответ 404 Not Found.
 
-As the web grew more dynamic, however, a little bit of extra complexity was
-added.  Technologies such as CGI and HTTP server modules were developed.
-Files were still looked up on the file system, but if the file ended with
-(for example) ``.cgi`` or ``.php``, or if it lived in a special folder,
-instead of simply sending the file to the client the server would read the
-file, execute it using an interpreter of some sort, and then send the output
-from this process to the client as the final result.  The server
-configuration specified which files would trigger some dynamic code, with the
-default case being to just serve the static file.
+По мере того, как веб становился все более динамичным, добавилась некоторая сложность. Были придуманы технологии: CGI, FastCGI и встраиваемые в веб-сервер модули. Файлы все еще искались в файловой систем, но если имя запрашиваемого файла заканчивалось, например, на .cgi, .pl или .php, или если они были размещены в определенной специальной директории, то в этом случае веб-сервер не отдавал файл в сыром выде, а читал этот файл, исполнял его, используя какой-то интерпретатор, и только потом результат его исполнения отдавал клиенту (HTTP ответ на HTTP запрос). Сервер конфигурировался так, что некоторые файлы вызывали динамический обработчик, а другие файлы просто отдавались в сыром виде веб-сервером (поведение по умолчанию).
 
-Traversal (aka Resource Location)
+
+
+Траверс или поиск ресурсов
 ---------------------------------
 
 .. index::
    single: traversal overview
 
-Believe it or not, if you understand how serving files from a file system
-works, you understand traversal.  And if you understand that a server might do
-something different based on what type of file a given request specifies,
-then you understand view lookup.
+Верите вы или нет, но если вы понимаете то, как работает отдача файлов из файловой системы, то вы поймете и траверс. И если вы понимаете, что сервер, в зависимости от типа файла, может отдавать разные ответы, то вы поймете и поиск ресурсов.
 
-The major difference between file system lookup and traversal is that a file
-system lookup steps through nested directories and files in a file system
-tree, while traversal steps through nested dictionary-type objects in a
-:term:`resource tree`.  Let's take a detailed look at one of our example
-paths, so we can see what I mean:
+Основное отличие между поиском в файловой системе и траверсом состоит в том, что файловая система производит поиск во вложенних директориях и файлах, а траверс обходит некоторый объект словарного типа в дереве ресурсов. Рассмотрим пример, чтобы понять, что я имею ввиду:
 
-The path ``/joeschmoe/photos/photo1``, has four segments: ``/``,
-``joeschmoe``, ``photos`` and ``photo1``.  With file system lookup we might
-have a root folder (``/``) containing a nested folder (``joeschmoe``), which
-contains another nested folder (``photos``), which finally contains a JPG
-file (``photo1``).  With traversal, we instead have a dictionary-like root
-object.  Asking for the ``joeschmoe`` key gives us another dictionary-like
-object.  Asking this in turn for the ``photos`` key gives us yet another
-mapping object, which finally (hopefully) contains the resource that we're
-looking for within its values, referenced by the ``photo1`` key.
+Путь /joeschmoe/photos/photo1 содержит четыре сегмента: /, joeschmoe, photos и photo1. При поиске в файловой системе у нас была бы корневая директория (/), которая содержит в себе поддиректории (joeschmoe), которая, в свою очередь, содержит другие вложенные директории (photos), а та, в конце концов, содержит JPEG файл (photo1). С траверсом мы имеем корневой объект словарного типа. Поиск по ключу joeschmoe возвращает нам другой словарный объект. Запрашивая вновь у этого объекта по ключу photos, мы получаем другой словарный объект, который в итоге содержит ресурсы, которые мы ищем и значения, которые нам нужны и доступны по ключу photo1.
 
-In pure Python terms, then, the traversal or "resource location"
-portion of satisfying the ``/joeschmoe/photos/photo1`` request
-will look something like this pseudocode::
+В понятиях Python траверс или поиск ресуров, который соответствует пути запроса /joeschmoe/photos/photo1 будет выглядеть примерно так:::
 
     get_root()['joeschmoe']['photos']['photo1']
 
-``get_root()`` is some function that returns a root traversal
-:term:`resource`.  If all of the specified keys exist, then the returned
-object will be the resource that is being requested, analogous to the JPG
-file that was retrieved in the file system example.  If a :exc:`KeyError` is
-generated anywhere along the way, :app:`Pyramid` will return 404.  (This
-isn't precisely true, as you'll see when we learn about view lookup below,
-but the basic idea holds.)
+``get_root()`` — это функция, которая возвращает корневой ресурс траверса. Если все указанные ключи существуют, то возвращаемый ресурс и будет тем ресурсом, который был запрошен, по аналогиии с примером с JPEG файлом, который был бы найден в файловой системе. Если по мере поиска нужного ресурса было создано исключение KeyError, то Pyramid вернет 404 Not Found. (Это не тоже самое, что происходит на самом деле, но основная идея показана верно.)
 
-What Is a "Resource"?
+Что такое ресурс?
 ---------------------
 
-"Files on a file system I understand", you might say.  "But what are these
-nested dictionary things?  Where do these objects, these 'resources', live?
-What *are* they?"
+Вы можете сказать «я понимаю файлы в файловой системе, но что такое эти вложенные словари? Где эти объекты и ресурсы находится? Чем они являются фактически?»
 
-Since :app:`Pyramid` is not a highly opinionated framework, it makes no
-restriction on how a :term:`resource` is implemented; a developer can
-implement them as he wishes.  One common pattern used is to persist all of
-the resources, including the root, in a database as a graph.  The root object
-is a dictionary-like object.  Dictionary-like objects in Python supply a
-``__getitem__`` method which is called when key lookup is done.  Under the
-hood, when ``adict`` is a dictionary-like object, Python translates
-``adict['a']`` to ``adict.__getitem__('a')``.  Try doing this in a Python
-interpreter prompt if you don't believe us:
+Так как Pyramid не является строгим фреймворком и его целью не является ограничение разработчика, то он и не делает ограничений на то, как ваш ресурс реализован фактически. Разработчик может реализовать ресурс так, как ему угодно. Используется один единственный способ для хранения всех ресурсов (корневой ресурс в том числе), в базе данных в виде графа. Корневой объект — это объект словарного типа. Любой словарный объект в Python реализует метод __getitem__ который вызывается по мере поиска ресурса. Например, если adict является объектом словарного типа, то Python трансформирует вызов типа adict['a'] в adict.__getitem__('a'). Попробуйте это сделать сами, если вы нам не верите:
 
 .. code-block:: text
    :linenos:
@@ -172,138 +73,56 @@ interpreter prompt if you don't believe us:
    1
 
 
-The dictionary-like root object stores the ids of all of its subresources as
-keys, and provides a ``__getitem__`` implementation that fetches them.  So
-``get_root()`` fetches the unique root object, while
-``get_root()['joeschmoe']`` returns a different object, also stored in the
-database, which in turn has its own subresources and ``__getitem__``
-implementation, etc.  These resources might be persisted in a relational
-database, one of the many "NoSQL" solutions that are becoming popular these
-days, or anywhere else, it doesn't matter.  As long as the returned objects
-provide the dictionary-like API (i.e. as long as they have an appropriately
-implemented ``__getitem__`` method) then traversal will work.
+Корневой объект словарного типа хранит в себе все идентификаторы его подресурсов как ключи и реализует метод __getitem__, который и отдает их. То есть get_root() отдает уникальный корневой объект, тогда как get_root()['joeschmoe'] отдает объект другого типа, который также хранится в базе данных, который тоже имеет свои собственные подресурсы и реализует метод __getitem__ и так далее вниз по иерархии. Эти ресурсы могут храниться как в реляционной базе данных, так и в одном из популярных сегодня NoSQL хранилищ или где-либо еще. Реального значения это не имеет. До тех пор пока объекты будут представлять API для доступа как к словарю (т.е. будут иметь реализацию метода __getitem__) траверсинг будет работать.
 
-In fact, you don't need a "database" at all.  You could use plain
-dictionaries, with your site's URL structure hard-coded directly in
-the Python source.  Or you could trivially implement a set of objects
-with ``__getitem__`` methods that search for files in specific
-directories, and thus precisely recreate the traditional mechanism of
-having the URL path mapped directly to a folder structure on the file
-system.  Traversal is in fact a superset of file system lookup.
+Фактически, вам не нужна база данных. Вы можете использовать обычные простые словари, со структурой вашего сайта, которые буду захардкодены в исходном коде Python. Или вы можете просто реализовать множество объектов с методом __getitem__, который будет искать файлы в нужной директории на диске, и таким образом определить классический традиционный механизм сопоставления пути URL с физическими файлами и директориями в файловой системе через траверс. Другими словами, в этом случае траверс будет являться надмножеством поиска ресурсов в файловой системе.
 
-.. note:: See the chapter entitled :ref:`resources_chapter` for a more
-   technical overview of resources.
 
-View Lookup
+
+.. note:: Посмотрите главу :ref:`resources_chapter` для более подробной информации о концепции ресурсов.
+
+Поиск представлений
 -----------
 
-At this point we're nearly there.  We've covered traversal, which is the
-process by which a specific resource is retrieved according to a specific URL
-path.  But what is "view lookup"?
+Мы почти уже закончили. Мы пояснили весь траверс, который является процессом сопоставления определенного ресурса с заданным специфичным путем URL, но что из себя представляет поиск представлений?
 
-The need for view lookup is simple: there is more than one possible action
-that you might want to take after finding a :term:`resource`.  With our photo
-example, for instance, you might want to view the photo in a page, but you
-might also want to provide a way for the user to edit the photo and any
-associated metadata.  We'll call the former the ``view`` view, and the latter
-will be the ``edit`` view.  (Original, I know.)  :app:`Pyramid` has a
-centralized view :term:`application registry` where named views can be
-associated with specific resource types.  So in our example, we'll assume
-that we've registered ``view`` and ``edit`` views for photo objects, and that
-we've specified the ``view`` view as the default, so that
-``/joeschmoe/photos/photo1/view`` and ``/joeschmoe/photos/photo1`` are
-equivalent.  The edit view would sensibly be provided by a request for
-``/joeschmoe/photos/photo1/edit``.
+Необходимость в поиске представлений такова: может быть несколько действий, которые вы можете выполнить после того, как ресурс будет найден. В нашем примере с фотографиями вы можете посмотреть фотографию на странице, но вы также можете захотеть предоставить способ редактирования фотографии и сопутствующей ей мета-информации. Первое представление мы назовем view, а второе будет называться edit. (Оригинально, я знаю.) Pyramid имеет централизованный реестр представлений где именованные представления могут быть проассоциированны со специфичными типами ресурсов. То есть в нашем примере мы предполагаем то, что мы зарегистрировали представления view и edit для объекта «фотография» и мы указали, что представление view является представлением по умолчанию. Путь /joeschmoe/photos/photo1/view тождественен пути /joeschmoe/photos/photo1. Представление редактирования будет доступно по запросу /joeschmoe/photos/photo1/edit.
 
-Hopefully it's clear that the first portion of the edit view's URL path is
-going to resolve to the same resource as the non-edit version, specifically
-the resource returned by ``get_root()['joeschmoe']['photos']['photo1']``.
-But traveral ends there; the ``photo1`` resource doesn't have an ``edit``
-key.  In fact, it might not even be a dictionary-like object, in which case
-``photo1['edit']`` would be meaningless.  When the :app:`Pyramid` resource
-location has been resolved to a *leaf* resource, but the entire request path
-has not yet been expended, the *very next* path segment is treated as a
-:term:`view name`.  The registry is then checked to see if a view of the
-given name has been specified for a resource of the given type.  If so, the
-view callable is invoked, with the resource passed in as the related
-``context`` object (also available as ``request.context``).  If a view
-callable could not be found, :app:`Pyramid` will return a "404 Not Found"
-response.
+Надеемся на то, что понятно, что первая часть часть URL будет возвращать тот-же самый ресурс, что и версия чуть выше, которая не имеет возможности редактирования фотографии, а именно ресурс возвращаемый по вызову get_root()['joeschmoe']['photos']['photo1']. Но траверс заканчивается здесь. photo1 не имеет ключа edit. Фактически он (объект типа «фотография») даже может и не быть словарным объектом, в котором photo1['edit'] будет бессмысленным. Когда поиск ресурсов в Pyramid будет закончен и будет найден конечный фрагмент дерева (нужный ресурс), но весь путь запроса все еще не кончился, то следующие сегменты будут трактоваться как названия представлений. Реестр далее будет проверять является ли нужное представление проассоциированным с ресурсом данного типа. Если так, то представление будет вызвано с ресурсом, переданным как соотвествующий контекстный объект (также доступный как request.context). Если представление для вызова не будет найдено, то Pyramid просто вернет ответ 404 Not Found.
 
-You might conceptualize a request for ``/joeschmoe/photos/photo1/edit`` as
-ultimately converted into the following piece of Pythonic pseudocode::
+Можно переписать запрос /joeschmoe/photos/photo1/edit в следующий кусок питонического псевдокода::
 
   context = get_root()['joeschmoe']['photos']['photo1']
   view_callable = get_view(context, 'edit')
   request.context = context
   view_callable(request)
 
-The ``get_root`` and ``get_view`` functions don't really exist.  Internally,
-:app:`Pyramid` does something more complicated.  But the example above
-is a reasonable approximation of the view lookup algorithm in pseudocode.
+Функций get_root() и get_view() не существует на самом деле. Внутри себя, Pyramid работает немного иначе и сложнее. Однако пример выше является разумным приближением алгоритма поиска вьюшек в псевдокоде.
 
-Use Cases
+Применения
 ---------
 
-Why should we care about traversal?  URL matching is easier to explain, and
-it's good enough, right?
+Почему мы должны думать о траверсе? URL матчинг проще пояснить и он достаточно хорош, верно?
 
-In some cases, yes, but certainly not in all cases.  So far we've had very
-structured URLs, where our paths have had a specific, small number of pieces,
-like this::
+В некоторых случах, да, но, конечно, не во всех случаях. До сих пор у нас были очень структурированные URLы, где наш путь имел специфичные, маленькие кусочки::
 
   /{userid}/{typename}/{objectid}[/{view_name}]
 
-In all of the examples thus far, we've hard coded the typename value,
-assuming that we'd know at development time what names were going to be used
-("photos", "blog", etc.).  But what if we don't know what these names will
-be?  Or, worse yet, what if we don't know *anything* about the structure of
-the URLs inside a user's folder?  We could be writing a CMS where we want the
-end user to be able to arbitrarily add content and other folders inside his
-folder.  He might decide to nest folders dozens of layers deep.  How will you
-construct matching patterns that could account for every possible combination
-of paths that might develop?
+Во всех этих примерах до сих пор мы захардкодивали название определенного кусочка, предполагая, что мы знаем во время разработки какие имена будут использоваться (photos, blog и так далее). Но что если мы не знаем какие имена это будут в итоге? Или, что еще хуже, что если мы не знаем вообще ничего о будущей структуре URL внутри директории пользователя? Мы можем писать CMS в которой мы хотим, чтобы конечный пользователь имел возможность произвольно добавлять содержимое и другие директории внутри его директории. Он может решить сделать иерархию глубиной в дюжину. Какими будут ваши шаблоны сопоставления в классическом роутинге, которые позволят каждой учетной записи пользователя использовать любые комбинации путей?
 
-It might be possible, but it certainly won't be easy.  The matching
-patterns are going to become complex quickly as you try to handle all
-of the edge cases.
+Это вполне возможно и реализуемо, но конечно это будет не так-то просто. Шаблоны сопоставления будут усложняться очень быстро по мере того, как вы будете пытаться учесть все тонкости и случаи расширяемой структуры директорий пользователя.
 
-With traversal, however, it's straightforward.  Twenty layers of nesting
-would be no problem.  :app:`Pyramid` will happily call ``__getitem__`` as
-many times as it needs to, until it runs out of path segments or until a
-resource raises a :exc:`KeyError`.  Each resource only needs to know how to
-fetch its immediate children, the traversal algorithm takes care of the rest.
-Also, since the structure of the resource tree can live in the database and
-not in the code, it's simple to let users modify the tree at runtime to set
-up their own personalized "directory" structures.
+С траверсом, однако, это очень просто и логично. Двадцать слоев иерархии не будет проблемой. Pyramid с удовольствием сделает вызов __getitem__ столько раз, сколько надо до тех пор пока не кончится сегменты пути или пока ресурс создаст исключение KeyError. Каждый ресурс должен знать только лишь то, как получить его непосредственных потомков на один уровень ниже (дети), обо всем остальном позаботится алогоритм траверса. И еще, так как структура дерева ресурсов может находится в базе данных, а не в коде, то будет очень просто дать пользователям возможность модифицировать дерево во время исполнения для установки персонализированной структуры директорий.
 
-Another use case in which traversal shines is when there is a need to support
-a context-dependent security policy.  One example might be a document
-management infrastructure for a large corporation, where members of different
-departments have varying access levels to the various other departments'
-files.  Reasonably, even specific files might need to be made available to
-specific individuals.  Traversal does well here if your resources actually
-represent the data objects related to your documents, because the idea of a
-resource authorization is baked right into the code resolution and calling
-process.  Resource objects can store ACLs, which can be inherited and/or
-overridden by the subresources.
+Другой случай применения траверса, где он покажет себя очень хорошо, это там, где нужна поддержка контекстно-зависимых политик безопасности. Примером может быть система документооборота для огромной корпорации, где члены разных департаментов имеют разные уровни доступа к документам и файлам других различных департаментов. Разумно, что мы должны уметь каждому файлу по-отдельности также задавать права для отдельных групп или отдельных пользователей пользователей. Траверс показывает себя в такой ситуации очень хорошо если ваши ресурсы фактически представляют объекты данных относящихся к вашим документам, потому как основная идея авторизации ресурсов непосредственно связана с разрешением кода и процесса вызова. Объекты-ресурсы могут хранить списки доступов ACL, которые могут быть унаследованы или переопределены подресурсами или надресурсами.
 
-If each resource can thus generate a context-based ACL, then whenever view
-code is attempting to perform a sensitive action, it can check against that
-ACL to see whether the current user should be allowed to perform the action.
-In this way you achieve so called "instance based" or "row level" security
-which is considerably harder to model using a traditional tabular approach.
-:app:`Pyramid` actively supports such a scheme, and in fact if you register
-your views with guard permissions and use an authorization policy,
-:app:`Pyramid` can check against a resource's ACL when deciding whether or
-not the view itself is available to the current user.
+Если каждый ресурс будет генерировать контекстно-ориентированные ACL, тогда код представления может попытаться выполнить нужное действие и проверит перед этим через ACL может ли текущий пользователь совершить это действие. Таким образом вы достигаете instance based или row level безопасности, которую значительно более сложно реализовать стандартным табличным способом и классическом роутингом. Pyramid активно поддерживает такие схемы и фактически если вы регистрируете ваши вьюшки с правами защиты и используете авторизационную политику, Pyramid может проверять через ACL и решать доступна ли или нет текущая вьюшка текущему пользователю.
 
-In summary, there are entire classes of problems that are more easily served
-by traversal and view lookup than by :term:`URL dispatch`.  If your problems
-don't require it, great: stick with :term:`URL dispatch`.  But if you're
-using :app:`Pyramid` and you ever find that you *do* need to support one of
-these use cases, you'll be glad you have traversal in your toolkit.
+Подводя итог, можно сказать, что существует целый класс проблем которые легко решаются путем траверса и поиска представлений, чем через классический роутинг. Если ваши проблемы не требуют этого, отлично: продолжайте работать дальше по классической схеме роутинга, но если вы используете Pyramid и вы понимаете, что вам нужно будет работать с одним из таких случаев, то вы будете рады иметь механизм траверса в вашем инструменте.
 
-.. note:: It is even possible to mix and match :term:`traversal` with
-   :term:`URL dispatch` in the same :app:`Pyramid` application. See the
-   :ref:`hybrid_chapter` chapter for details.
+Более того, возможно смешение и сочетание траверса с классическим роутингом в одном и том-же Pyramid приложении.
+
+.. note:: Можно смешивать траверс и URL диспатч в одном и том же приложении :app:`Pyramid` application. Почитайте главу
+   :ref:`hybrid_chapter` для более подробной информации.
+   
+.. note:: Перевод: Тимур Рузиев aka resurtm
