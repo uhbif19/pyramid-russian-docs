@@ -28,13 +28,13 @@
 	from pyramid.response import Response
 
 	def hello_world(request):
-	return Response('Hello world!')
+		return Response('Hello world!')
 
 	if __name__ == '__main__':
-	config = Configurator()
-	config.add_view(hello_world)
-	app = config.make_wsgi_app()
-	serve(app, host='0.0.0.0')
+		config = Configurator()
+		config.add_view(hello_world)
+		app = config.make_wsgi_app()
+		serve(app, host='0.0.0.0')
 
 Мы пока не будем обсуждать, что делает приложение. Просто запомните, что конфигурационные выражения вида ``if __name__ ==
 '__main__':`` заменяются вызовами методов класса :term:`Configurator` (к примеру ``config.add_view(...)``). Эти утверждения находятся одни за другими, и выполняются в порядке следования.
@@ -59,7 +59,7 @@
 
 	@view_config(name='hello', request_method='GET')
 	def hello(request):
-	return Response('Hello')
+		return Response('Hello')
 
 Но есть тонкость, что простая декорация не записывает никаких изменений в конфигурации. Для оказания эффекта на конфигурацию, необходимо провести процесс :term:`сканирования`.
 
@@ -78,14 +78,14 @@
 
 	@view_config()
 	def hello(request):
-	return Response('Hello')
+		return Response('Hello')
 
 	if __name__ == '__main__':
-	from pyramid.config import Configurator
-	config = Configurator()
-	config.scan()
-	app = config.make_wsgi_app()
-	serve(app, host='0.0.0.0')
+		from pyramid.config import Configurator
+		config = Configurator()
+		config.scan()
+		app = config.make_wsgi_app()
+		serve(app, host='0.0.0.0')
 
 Механизм сканирования импортирует каждый модуль рекурсивно, находя специальные атрибуты обьектов определенных в модуле.Эти атрибуты определяются в коде обыкновенно, с помощью декораторов. Например декоратор :class:`~pyramid.view.view_config` может быть назначен функции или методу.
 
